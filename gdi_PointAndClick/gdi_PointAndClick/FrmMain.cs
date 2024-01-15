@@ -5,6 +5,8 @@ namespace gdi_PointAndClick
     public partial class FrmMain : Form
     {
         List<Rectangle> rectangles = new List<Rectangle>();
+        Random quadratGroesse = new Random();
+        int maxQuadratGroesse = 250;
 
         public FrmMain()
         {
@@ -33,7 +35,7 @@ namespace gdi_PointAndClick
         private void FrmMain_MouseClick(object sender, MouseEventArgs e)
         {
             Point mp = e.Location;
-            int rectangleSize = 40;
+            int rectangleSize = quadratGroesse.Next(maxQuadratGroesse);
 
             Rectangle r = new Rectangle(mp.X - rectangleSize /2, mp.Y - rectangleSize /2, rectangleSize , rectangleSize);
             foreach (Rectangle rectangle in rectangles)
