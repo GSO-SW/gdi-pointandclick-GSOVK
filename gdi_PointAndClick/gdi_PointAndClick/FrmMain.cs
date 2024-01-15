@@ -32,11 +32,17 @@ namespace gdi_PointAndClick
 
         private void FrmMain_MouseClick(object sender, MouseEventArgs e)
         {
+            Point mp = e.Location;
             int rectangleSize = 40;
-            Point mausposition = e.Location;
 
-            Rectangle r = new Rectangle(mausposition.X - rectangleSize /2, mausposition.Y - rectangleSize /2, rectangleSize , rectangleSize);
-
+            Rectangle r = new Rectangle(mp.X - rectangleSize /2, mp.Y - rectangleSize /2, rectangleSize , rectangleSize);
+            foreach (Rectangle rectangle in rectangles)
+            {
+                if (rectangle.IntersectsWith(r))
+                {
+                    return;
+                }
+            }
             rectangles.Add(r);  // Kurze Variante: rectangles.Add( new Rectangle(...)  );
 
             Refresh();
