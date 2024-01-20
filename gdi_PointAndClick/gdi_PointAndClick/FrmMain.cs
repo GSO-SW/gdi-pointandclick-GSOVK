@@ -6,7 +6,7 @@ namespace gdi_PointAndClick
     {
         List<Rectangle> rectangles = new List<Rectangle>();
         Random rectSize = new Random();
-        int maxRectSize = 250;
+        int maxRectSize = 100;
         int minRectSize = 15;
 
         public FrmMain()
@@ -23,7 +23,7 @@ namespace gdi_PointAndClick
             int h = this.ClientSize.Height;
 
             // Zeichenmittel
-            Brush b = new SolidBrush(Color.Lavender);
+            Brush b = new SolidBrush(Color.Red);
 
 
             for (int i = 0; i < rectangles.Count; i++)
@@ -38,10 +38,10 @@ namespace gdi_PointAndClick
             Point mp = e.Location;
             int rectangleSize = rectSize.Next(minRectSize, maxRectSize);
 
-            Rectangle r = new Rectangle(mp.X - rectangleSize /2, mp.Y - rectangleSize /2, rectangleSize , rectangleSize);
+            Rectangle r = new Rectangle(mp.X - rectangleSize / 2, mp.Y - rectangleSize / 2, rectangleSize, rectangleSize);
             foreach (Rectangle rectangle in rectangles)
             {
-                if (rectangle.IntersectsWith(r))
+                if (rectangle.Contains(mp.X, mp.Y))
                 {
                     return;
                 }
@@ -58,6 +58,11 @@ namespace gdi_PointAndClick
                 rectangles.Clear();
                 Refresh();
             }
+        }
+
+        private void FrmMain_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
