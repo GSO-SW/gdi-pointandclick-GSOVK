@@ -5,14 +5,24 @@ namespace gdi_PointAndClick
 {
     public partial class FrmMain : Form
     {
-        static List<Rectangle> rectangles = new List<Rectangle>();
+        readonly List<Rectangle> rectangles = new List<Rectangle>();
         readonly Random rectSize = new Random();
         readonly int maxRectSize = 80;
         readonly int minRectSize = 15;
+        readonly int arrowKeyMovingDistance = 15;
         bool isDraggingRectangle = false;
         int selectedRectIndex = -1;
         Point clickOffset;
-        int arrowKeyMovingDistance = 15;
+
+        const Keys moveLeft = Keys.H;
+        const Keys moveRight = Keys.L;
+        const Keys moveUp = Keys.K;
+        const Keys moveDown = Keys.J;
+
+        //const Keys moveLeft = Keys.Left;
+        //const Keys moveRight = Keys.Right;
+        //const Keys moveUp = Keys.Up;
+        //const Keys moveDown = Keys.Down;
 
         public FrmMain()
         {
@@ -68,6 +78,7 @@ namespace gdi_PointAndClick
                 {
                     if (rectangles[i].Contains(mp.X, mp.Y))
                     {
+                        selectedRectIndex = -1;
                         rectangles.RemoveAt(i);
                     }
                 }
@@ -100,32 +111,33 @@ namespace gdi_PointAndClick
                 Rectangle r = rectangles[selectedRectIndex];
                 switch (e.KeyCode)
                 {
-                    case Keys.Left:
+                    case moveLeft:
                         rectangles[selectedRectIndex] = new Rectangle(r.X -arrowKeyMovingDistance, r.Y, r.Width, r.Height);
                         Invalidate();
                         break;
 
-                    case Keys.Right:
+                    case moveRight:
                         rectangles[selectedRectIndex] = new Rectangle(r.X +arrowKeyMovingDistance, r.Y, r.Width, r.Height);
                         Invalidate();
                         break;
 
-                    case Keys.Up:
+                    case moveUp:
                         rectangles[selectedRectIndex] = new Rectangle(r.X, r.Y -arrowKeyMovingDistance, r.Width, r.Height);
                         Invalidate();
                         break;
 
-                    case Keys.Down:
+                    case moveDown:
                         rectangles[selectedRectIndex] = new Rectangle(r.X, r.Y +arrowKeyMovingDistance, r.Width, r.Height);
                         Invalidate();
                         break;
+                    
+                    default: break;
                 }
             }
         }
 
         private void FrmMain_Load(object sender, EventArgs e)
         {
-
         }
 
         private void FrmMain_DragDrop(object sender, DragEventArgs e)
