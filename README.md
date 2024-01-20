@@ -8,14 +8,14 @@ Das vorliegende WindowsForms-Projekt zeichnet mit GDI+ Rechtecke auf die GUI, we
 - Objekte in Listen verwalten. Infos dazu in der [Doku](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1?view=net-8.0) oder [hier](https://csharp-hilfe.de/c-sharp-lists/).
 
 ## :clipboard:TODO
-### Muss ✔
+### <p>Muss ✔</p>
 ~~<p>1)  Die Quadrate sollen mittig unter dem Mausklick entstehen.</p>~~
 ~~<p>2)	Ein neues Quadrat darf nur dann gezeichnet werden, wenn die **Klickposition** nicht auf einem bereits erzeugtem Quadrat liegt. Tipp: `.Contains` (siehe Cheatsheet)</p>~~
 ~~<p>3)	Die Größe neuer Quadrate soll bei jedem Klick zufällig festgelegt werden. Vorhandene Quadrate sollen ihre Größe behalten</p>~~
 ~~<p>4)	Die Farbe neuer Quadrate soll bei jedem Klick zufällig ausgewählt werden.</p>~~
 
 ### Kann
-1)  Durch Rechtsklick auf ein bereits vorhandenes Quadrat soll dieses entfernt werden.
+~~<p>1)  Durch Rechtsklick auf ein bereits vorhandenes Quadrat soll dieses entfernt werden.</p>~~
 2)	Die Überschneidung zweier Quadrate soll farblich hervorgehoben werden.
 
 ### Für Schnelle
