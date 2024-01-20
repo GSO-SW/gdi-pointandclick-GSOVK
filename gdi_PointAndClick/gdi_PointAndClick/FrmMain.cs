@@ -12,6 +12,7 @@ namespace gdi_PointAndClick
         bool isDraggingRectangle = false;
         int selectedRectIndex = -1;
         Point clickOffset;
+        int arrowKeyMovingDistance = 15;
 
         public FrmMain()
         {
@@ -90,7 +91,35 @@ namespace gdi_PointAndClick
             if (e.KeyCode == Keys.Escape)
             {
                 rectangles.Clear();
+                selectedRectIndex = -1;
                 Refresh();
+            }
+            
+            if (selectedRectIndex != -1)
+            {
+                Rectangle r = rectangles[selectedRectIndex];
+                switch (e.KeyCode)
+                {
+                    case Keys.Left:
+                        rectangles[selectedRectIndex] = new Rectangle(r.X -arrowKeyMovingDistance, r.Y, r.Width, r.Height);
+                        Invalidate();
+                        break;
+
+                    case Keys.Right:
+                        rectangles[selectedRectIndex] = new Rectangle(r.X +arrowKeyMovingDistance, r.Y, r.Width, r.Height);
+                        Invalidate();
+                        break;
+
+                    case Keys.Up:
+                        rectangles[selectedRectIndex] = new Rectangle(r.X, r.Y -arrowKeyMovingDistance, r.Width, r.Height);
+                        Invalidate();
+                        break;
+
+                    case Keys.Down:
+                        rectangles[selectedRectIndex] = new Rectangle(r.X, r.Y +arrowKeyMovingDistance, r.Width, r.Height);
+                        Invalidate();
+                        break;
+                }
             }
         }
 
@@ -135,7 +164,6 @@ namespace gdi_PointAndClick
         private void FrmMain_MouseUp(object sender, MouseEventArgs e)
         {
             isDraggingRectangle = false;
-            selectedRectIndex = -1;
         }
     }
 }
