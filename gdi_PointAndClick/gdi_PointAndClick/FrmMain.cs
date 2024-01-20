@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 
 namespace gdi_PointAndClick
@@ -5,11 +6,9 @@ namespace gdi_PointAndClick
     public partial class FrmMain : Form
     {
         List<Rectangle> rectangles = new List<Rectangle>();
-        Random rectColor = new Random();
-        Random rectSize = new Random();
-        int maxRectSize = 80;
-        int minRectSize = 15;
-        int numRect = 0;
+        readonly Random rectSize = new Random();
+        readonly int maxRectSize = 80;
+        readonly int minRectSize = 15;
 
         public FrmMain()
         {
@@ -19,44 +18,61 @@ namespace gdi_PointAndClick
 
         private void FrmMain_Paint(object sender, PaintEventArgs e)
         {
-            // Hilfsvarablen
             Graphics g = e.Graphics;
             int w = this.ClientSize.Width;
             int h = this.ClientSize.Height;
 
-            // Zeichenmittel
             Brush b1 = new SolidBrush(Color.Red);
             Brush b2 = new SolidBrush(Color.Green);
+            Brush b3 = new SolidBrush(Color.Violet);
 
-            for (int i = 0; i < rectangles.Count; i++)
+            foreach (Rectangle rect in rectangles)
             {
-                if ((rectangles[i].X % 2) == 0)
+                if ((rect.X % 2) == 0)
                 {
-                    g.FillRectangle(b1, rectangles[i]);
+                    g.FillRectangle(b1, rect);
                 }
                 else
                 {
-                    g.FillRectangle(b2, rectangles[i]);
+                    g.FillRectangle(b2, rect);
+                }
+
+                foreach (Rectangle rectIntersect in rectangles)
+                {
+                    if (rectIntersect == rect) continue;
+                    g.FillRectangle(b3, Rectangle.Intersect(rect, rectIntersect));
                 }
             }
-
         }
 
         private void FrmMain_MouseClick(object sender, MouseEventArgs e)
         {
-            Point mp = e.Location;
             int rectangleSize = rectSize.Next(minRectSize, maxRectSize);
 
-            Rectangle r = new Rectangle(mp.X - rectangleSize / 2, mp.Y - rectangleSize / 2, rectangleSize, rectangleSize);
+            Point mp = e.Location;
+            int posX = mp.X - rectangleSize / 2;
+            int posY = mp.Y - rectangleSize / 2;
+
+            Rectangle r = new Rectangle(posX, posY, rectangleSize, rectangleSize);
+
+            if (e.Button == MouseButtons.Right)
+            {
+                List<int> deleteIndex = new List<int>();
+                for (int i = rectangles.Count -1; i >= 0; i--)
+                {
+                    if (rectangles[i].Contains(mp.X, mp.Y))
+                    {
+                        rectangles.RemoveAt(i);
+                    }
+                }
+                Refresh();
+                return;
+            }
+
             foreach (Rectangle rectangle in rectangles)
             {
                 if (rectangle.Contains(mp.X, mp.Y))
                 {
-                    if (e.Button == MouseButtons.Right)
-                    {
-                        rectangles.Remove(rectangle);
-                        Refresh();
-                    }
                     return;
                 }
             }
