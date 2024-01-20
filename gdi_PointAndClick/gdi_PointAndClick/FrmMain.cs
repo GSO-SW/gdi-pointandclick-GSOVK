@@ -52,6 +52,11 @@ namespace gdi_PointAndClick
             {
                 if (rectangle.Contains(mp.X, mp.Y))
                 {
+                    if (e.Button == MouseButtons.Right)
+                    {
+                        rectangles.Remove(rectangle);
+                        Refresh();
+                    }
                     return;
                 }
             }
