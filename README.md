@@ -19,6 +19,7 @@ Das vorliegende WindowsForms-Projekt zeichnet mit GDI+ Rechtecke auf die GUI, we
 
 ### Kann ✔
 ~~1)  Durch Rechtsklick auf ein bereits vorhandenes Quadrat soll dieses entfernt werden.~~
+
 ~~2)	Die Überschneidung zweier Quadrate soll farblich hervorgehoben werden.~~
 
 ### Für Schnelle ✔
