@@ -5,15 +5,19 @@ namespace gdi_PointAndClick
 {
     public partial class FrmMain : Form
     {
-        List<Rectangle> rectangles = new List<Rectangle>();
+        static List<Rectangle> rectangles = new List<Rectangle>();
         readonly Random rectSize = new Random();
         readonly int maxRectSize = 80;
         readonly int minRectSize = 15;
+        bool isDraggingRectangle = false;
+        int selectedRectIndex = -1;
+        Point clickOffset;
 
         public FrmMain()
         {
             InitializeComponent();
             ResizeRedraw = true;
+            DoubleBuffered = true;
         }
 
         private void FrmMain_Paint(object sender, PaintEventArgs e)
@@ -28,7 +32,7 @@ namespace gdi_PointAndClick
 
             foreach (Rectangle rect in rectangles)
             {
-                if ((rect.X % 2) == 0)
+                if ((rect.Size.Width % 2) == 0)
                 {
                     g.FillRectangle(b1, rect);
                 }
@@ -47,6 +51,7 @@ namespace gdi_PointAndClick
 
         private void FrmMain_MouseClick(object sender, MouseEventArgs e)
         {
+            if (isDraggingRectangle) { return; }
             int rectangleSize = rectSize.Next(minRectSize, maxRectSize);
 
             Point mp = e.Location;
@@ -58,7 +63,7 @@ namespace gdi_PointAndClick
             if (e.Button == MouseButtons.Right)
             {
                 List<int> deleteIndex = new List<int>();
-                for (int i = rectangles.Count -1; i >= 0; i--)
+                for (int i = rectangles.Count - 1; i >= 0; i--)
                 {
                     if (rectangles[i].Contains(mp.X, mp.Y))
                     {
@@ -92,6 +97,45 @@ namespace gdi_PointAndClick
         private void FrmMain_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void FrmMain_DragDrop(object sender, DragEventArgs e)
+        {
+        }
+
+        private void FrmMain_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                int i;
+                for (i = 0; i < rectangles.Count; i++)
+                {
+                    if (rectangles[i].Contains(e.Location.X, e.Location.Y))
+                    {
+                        isDraggingRectangle = true;
+                        selectedRectIndex = i;
+                        clickOffset = new Point(e.Location.X - rectangles[i].X, e.Location.Y - rectangles[i].Y);
+                    }
+                }
+            }
+        }
+
+        private void FrmMain_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (isDraggingRectangle && selectedRectIndex != -1)
+            {
+                Rectangle r = rectangles[selectedRectIndex];
+
+                Point point = new Point(e.X - clickOffset.X, e.Y - clickOffset.Y);
+                rectangles[selectedRectIndex] = new Rectangle(point, r.Size);
+                Invalidate();
+            }
+        }
+
+        private void FrmMain_MouseUp(object sender, MouseEventArgs e)
+        {
+            isDraggingRectangle = false;
+            selectedRectIndex = -1;
         }
     }
 }

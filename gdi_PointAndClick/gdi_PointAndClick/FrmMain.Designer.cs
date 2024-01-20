@@ -35,13 +35,18 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(648, 341);
+            Cursor = Cursors.Cross;
             Margin = new Padding(2, 1, 2, 1);
             Name = "FrmMain";
             Text = "Point and Click";
             Load += FrmMain_Load;
+            DragDrop += FrmMain_DragDrop;
             Paint += FrmMain_Paint;
             KeyDown += FrmMain_KeyDown;
             MouseClick += FrmMain_MouseClick;
+            MouseDown += FrmMain_MouseDown;
+            MouseMove += FrmMain_MouseMove;
+            MouseUp += FrmMain_MouseUp;
             ResumeLayout(false);
         }
 
