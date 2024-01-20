@@ -1,13 +1,15 @@
-using System.Collections.Generic; // benötigt für Listen
+using System.Collections.Generic;
 
 namespace gdi_PointAndClick
 {
     public partial class FrmMain : Form
     {
         List<Rectangle> rectangles = new List<Rectangle>();
+        Random rectColor = new Random();
         Random rectSize = new Random();
-        int maxRectSize = 100;
+        int maxRectSize = 80;
         int minRectSize = 15;
+        int numRect = 0;
 
         public FrmMain()
         {
@@ -23,12 +25,19 @@ namespace gdi_PointAndClick
             int h = this.ClientSize.Height;
 
             // Zeichenmittel
-            Brush b = new SolidBrush(Color.Red);
-
+            Brush b1 = new SolidBrush(Color.Red);
+            Brush b2 = new SolidBrush(Color.Green);
 
             for (int i = 0; i < rectangles.Count; i++)
             {
-                g.FillRectangle(b, rectangles[i]);
+                if ((rectangles[i].X % 2) == 0)
+                {
+                    g.FillRectangle(b1, rectangles[i]);
+                }
+                else
+                {
+                    g.FillRectangle(b2, rectangles[i]);
+                }
             }
 
         }
@@ -46,8 +55,7 @@ namespace gdi_PointAndClick
                     return;
                 }
             }
-            rectangles.Add(r);  // Kurze Variante: rectangles.Add( new Rectangle(...)  );
-
+            rectangles.Add(r);
             Refresh();
         }
 
